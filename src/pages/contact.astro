@@ -16,6 +16,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h2>We’d love to hear from you.</h2>
       <p>Fill out the form below and our team will get back to you as soon as possible.</p>
       <form class="contact-form" id="contact-form">
+        <input class="contact-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <input name="firstName" autocomplete="given-name" required placeholder="First Name" aria-label="First Name" />
         <input name="lastName" autocomplete="family-name" required placeholder="Last Name" aria-label="Last Name" />
         <div class="phone-field full">
@@ -85,13 +86,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const note = document.getElementById('contact-note');
-  form?.addEventListener('submit', (event) => {
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    form.reset();
-    if (note) note.textContent = 'Thank you. We’ll get back to you as soon as possible.';
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) button.disabled = true;
+    if (note) note.textContent = 'Sending…';
+    try {
+      const values = Object.fromEntries(new FormData(form).entries());
+      const apiUrl = window.location.port === '4321' ? 'http://localhost/serum72/api/contact.php' : '/api/contact.php';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source: 'contact', ...values }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send your message.');
+      form.reset();
+      if (note) note.textContent = result.message;
+    } catch (error) {
+      if (note) note.textContent = error instanceof Error ? error.message : 'Unable to send your message. Please try again.';
+    } finally {
+      if (button) button.disabled = false;
+    }
   });
 </script>

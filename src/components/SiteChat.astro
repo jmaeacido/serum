@@ -11,8 +11,10 @@
       <p class="site-chat-bot">Hey there, please leave your details so we can contact you even if you are no longer on the site.</p>
     </div>
     <form class="site-chat-form" data-chat-form>
+      <input class="contact-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <input name="name" autocomplete="name" required placeholder="Name" aria-label="Name" />
       <input name="email" type="email" autocomplete="email" required placeholder="Email" aria-label="Email" />
+      <textarea name="message" placeholder="How can we help?" aria-label="How can we help?"></textarea>
       <button type="submit">Submit</button>
     </form>
     <label class="site-chat-compose">
@@ -45,17 +47,37 @@
   };
   toggle?.addEventListener('click', () => setOpen(panel?.hasAttribute('hidden') ?? true));
   close?.addEventListener('click', () => setOpen(false));
-  form?.addEventListener('submit', (event) => {
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    const name = (form.elements.namedItem('name') as HTMLInputElement).value;
-    const note = document.createElement('p');
-    note.className = 'site-chat-user';
-    note.textContent = `Thanks ${name.split(' ')[0]}. We’ll be in touch.`;
-    log?.append(note);
-    form.reset();
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) button.disabled = true;
+    try {
+      const values = Object.fromEntries(new FormData(form).entries());
+      const apiUrl = window.location.port === '4321' ? 'http://localhost/serum72/api/contact.php' : '/api/contact.php';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source: 'chat', ...values }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send your details.');
+      const name = String(values.name || 'there');
+      const note = document.createElement('p');
+      note.className = 'site-chat-user';
+      note.textContent = `Thanks ${name.split(' ')[0]}. We’ll be in touch.`;
+      log?.append(note);
+      form.reset();
+    } catch (error) {
+      const note = document.createElement('p');
+      note.className = 'site-chat-bot';
+      note.textContent = error instanceof Error ? error.message : 'Unable to send your details. Please try again.';
+      log?.append(note);
+    } finally {
+      if (button) button.disabled = false;
+    }
   });
 </script>
