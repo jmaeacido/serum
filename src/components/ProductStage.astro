@@ -1,0 +1,82 @@
+---
+import '../../css/stage.css';
+
+const products = [
+  { className: 'night', name: 'Night Cream', image: '/assets/subjects/night.png', href: '/shop/night-cream/', description: 'A collagen-enhancing night moisturizer made to support skin renewal while you sleep.' },
+  { className: 'retinol', name: 'Retinol Treatment', image: '/assets/subjects/serum%20retinol.png', href: '/shop/serum/', description: 'A serum with retinol, peptides, and hyaluronic acid for smoother, refreshed-looking skin.' },
+  { className: 'sunscreen', name: 'Sunscreen', image: '/assets/subjects/sunscreen.png', href: '/shop/mineral-sunscreen/', description: 'A mineral SPF cream that helps protect skin from daily UV exposure with a clean, lightweight finish.' },
+  { className: 'cleanser', name: 'Cleanser', image: '/assets/subjects/cleanser.png', href: '/shop/dual-action-cleanser/', description: 'A gentle foaming cleanser that lifts away buildup while keeping the skin barrier comfortable.' },
+  { className: 'day', name: 'Day Cream', image: '/assets/subjects/day.png', href: '/shop/day-cream/', description: 'A brightening daily moisturizer with SPF to hydrate, protect, and prep skin for the day.' }
+];
+
+const particles = [
+  '--x:8%;--y:72%;--size:2px;--dx:1.6rem;--duration:11s;--delay:-2s;--opacity:.34',
+  '--x:15%;--y:56%;--size:1px;--dx:-1rem;--duration:14s;--delay:-7s;--opacity:.28',
+  '--x:22%;--y:81%;--size:2px;--dx:1.1rem;--duration:12s;--delay:-4s;--opacity:.3',
+  '--x:30%;--y:62%;--size:1px;--dx:-1.4rem;--duration:16s;--delay:-9s;--opacity:.26',
+  '--x:37%;--y:74%;--size:2px;--dx:.8rem;--duration:13s;--delay:-6s;--opacity:.32',
+  '--x:43%;--y:48%;--size:1px;--dx:-.9rem;--duration:15s;--delay:-3s;--opacity:.24',
+  '--x:49%;--y:84%;--size:2px;--dx:1.4rem;--duration:10s;--delay:-5s;--opacity:.32',
+  '--x:56%;--y:64%;--size:1px;--dx:-1.2rem;--duration:17s;--delay:-11s;--opacity:.24',
+  '--x:62%;--y:78%;--size:2px;--dx:.9rem;--duration:12s;--delay:-1s;--opacity:.3',
+  '--x:68%;--y:53%;--size:1px;--dx:-1.5rem;--duration:18s;--delay:-8s;--opacity:.24',
+  '--x:75%;--y:83%;--size:2px;--dx:1.2rem;--duration:13s;--delay:-10s;--opacity:.3',
+  '--x:84%;--y:66%;--size:1px;--dx:-.8rem;--duration:15s;--delay:-12s;--opacity:.26',
+  '--x:91%;--y:76%;--size:2px;--dx:1rem;--duration:14s;--delay:-6s;--opacity:.28'
+];
+---
+
+<section class="static-page" aria-label="Native Ceuticals product lineup">
+  <div class="product-stage" id="product-stage">
+    <img class="hero-photo" src="/assets/second-section-thc-free.png" alt="Serum 72 skincare product lineup photographed on stone" loading="lazy" />
+    <div class="particle-field" aria-hidden="true">
+      {particles.map(style => <span class="particle" style={style}></span>)}
+    </div>
+    {products.map(product => (
+      <article class={`product ${product.className}`}>
+        <a class="product-trigger" href={product.href} aria-label={`${product.name} — view product`}>
+          <span class="product-hit" aria-hidden="true"></span>
+          <img class="product-lift" src={product.image} alt={product.name} loading="lazy" />
+        </a>
+        <aside class="product-card">
+          <strong>{product.name}</strong>
+          <span>{product.description}</span>
+          <a class="product-card-cta" href={product.href}>View product</a>
+        </aside>
+      </article>
+    ))}
+    <div class="stage-vignette" aria-hidden="true"></div>
+  </div>
+</section>
+
+<script>
+  import '../../js/stage.js';
+</script>
+
+<style>
+  .static-page {
+    height: calc(100dvh - var(--header));
+    min-height: 0;
+    max-height: calc(100dvh - var(--header));
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  .static-page .product-stage {
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+  }
+
+  @media (max-width: 800px) {
+    .static-page {
+      display: block;
+      min-height: 0;
+    }
+
+    .static-page .product-stage {
+      height: 100%;
+      min-height: 0;
+    }
+  }
+</style>

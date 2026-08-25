@@ -1,0 +1,33 @@
+---
+import type { Product } from '../data/products';
+interface Props { products: Product[] }
+const { products } = Astro.props;
+---
+<section class="featured-story" aria-label="Featured products" data-carousel>
+  <div class="carousel-viewport" data-carousel-viewport>
+    <div class="carousel-container">
+      {products.map((product) => (
+        <article class="story-slide">
+          <div class="story-media"><img src={product.storyImage} alt={product.name} loading="lazy" /></div>
+          <div class="story-copy">
+            <h2>{product.name}</h2>
+            {product.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            <a class="btn btn-outline" href={`/shop/${product.slug}/`}>SHOP NOW</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+  <button class="carousel-prev" type="button" aria-label="Previous product">←</button>
+  <button class="carousel-next" type="button" aria-label="Next product">→</button>
+</section>
+<script>
+  import EmblaCarousel from 'embla-carousel';
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('[data-carousel-viewport]');
+    if (!viewport) return;
+    const embla = EmblaCarousel(viewport, { loop: true, duration: 28, watchDrag: true });
+    root.querySelector<HTMLButtonElement>('.carousel-prev')?.addEventListener('click', () => embla.scrollPrev());
+    root.querySelector<HTMLButtonElement>('.carousel-next')?.addEventListener('click', () => embla.scrollNext());
+  });
+</script>

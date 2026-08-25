@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Customer Login | Serum 72" description="Access or create your Native Ceuticals customer account.">
+  <header class="page-hero"><h1>My Account</h1></header>
+  <section class="auth-shell" data-auth-page>
+    <div class="auth-panel" data-auth-guest>
+      <div class="auth-tabs" role="tablist"><button class="active" type="button" data-auth-tab="login">Log In</button><button type="button" data-auth-tab="register">Create Account</button></div>
+      <form class="auth-form" data-auth-form="login"><label>Email<input name="email" type="email" autocomplete="email" required /></label><label>Password<input name="password" type="password" autocomplete="current-password" required /></label><button class="btn" type="submit">LOG IN</button></form>
+      <form class="auth-form" data-auth-form="register" hidden><label>Full name<input name="name" type="text" autocomplete="name" minlength="2" maxlength="100" required /></label><label>Email<input name="email" type="email" autocomplete="email" required /></label><label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" required /></label><p class="form-help">Use at least 8 characters with a letter and a number.</p><button class="btn" type="submit">CREATE ACCOUNT</button></form>
+      <p class="auth-message" role="status" aria-live="polite"></p>
+    </div>
+    <div class="auth-panel account-panel" data-auth-account hidden><p class="eyebrow">SIGNED IN</p><h2>Welcome, <span data-user-name></span></h2><p data-user-email></p><button class="btn btn-outline" type="button" data-logout>LOG OUT</button></div>
+  </section>
+</BaseLayout>
+<script>
+  const apiUrl = window.location.port === '4321' ? 'http://localhost/serum72/api/auth.php' : '/serum72/api/auth.php';
+  const root = document.querySelector<HTMLElement>('[data-auth-page]');
+  let csrf = '';
+  const message = root?.querySelector<HTMLElement>('.auth-message');
+  root?.querySelectorAll<HTMLInputElement>('input[type="password"]').forEach(input => {
+    const wrapper = document.createElement('span');
+    wrapper.className = 'password-control';
+    input.parentNode?.insertBefore(wrapper, input);
+    wrapper.appendChild(input);
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'password-toggle';
+    toggle.tabIndex = -1;
+    toggle.setAttribute('aria-label', 'Show password');
+    toggle.textContent = 'Show';
+    toggle.addEventListener('pointerdown', event => event.preventDefault());
+    toggle.addEventListener('click', () => {
+      if (document.activeElement !== input) return;
+      const visible = input.type === 'text';
+      input.type = visible ? 'password' : 'text';
+      toggle.textContent = visible ? 'Show' : 'Hide';
+      toggle.setAttribute('aria-label', visible ? 'Show password' : 'Hide password');
+    });
+    wrapper.appendChild(toggle);
+  });
+  const showUser = (user: { name:string; email:string } | null) => {
+    const guest = root?.querySelector<HTMLElement>('[data-auth-guest]');
+    const account = root?.querySelector<HTMLElement>('[data-auth-account]');
+    if (!guest || !account) return;
+    guest.hidden = Boolean(user); account.hidden = !user;
+    if (user) { account.querySelector<HTMLElement>('[data-user-name]')!.textContent = user.name; account.querySelector<HTMLElement>('[data-user-email]')!.textContent = user.email; }
+  };
+  const request = async (payload?: Record<string,string>) => {
+    const response = await fetch(apiUrl, { method:payload ? 'POST':'GET', credentials:'include', headers:{'Content-Type':'application/json'}, body:payload ? JSON.stringify({...payload,csrf}):undefined });
+    const data = await response.json(); csrf = data.csrf || csrf; if (!response.ok) throw new Error(data.message || 'Something went wrong.'); return data;
+  };
+  request().then(data => showUser(data.user)).catch(() => { if(message) message.textContent='Unable to connect to the account service.'; });
+  root?.querySelectorAll<HTMLButtonElement>('[data-auth-tab]').forEach(button => button.addEventListener('click', () => {
+    root.querySelectorAll('[data-auth-tab]').forEach(x=>x.classList.toggle('active',x===button));
+    root.querySelectorAll<HTMLFormElement>('[data-auth-form]').forEach(form=>form.hidden=form.dataset.authForm!==button.dataset.authTab);
+    if(message) message.textContent='';
+  }));
+  root?.querySelectorAll<HTMLFormElement>('[data-auth-form]').forEach(form => form.addEventListener('submit', async event => {
+    event.preventDefault(); if(message) message.textContent='Please wait…';
+    const values=Object.fromEntries(new FormData(form).entries()) as Record<string,string>;
+    try { const data=await request({action:form.dataset.authForm!,...values}); form.reset(); showUser(data.user); }
+    catch(error) { if(message) message.textContent=error instanceof Error?error.message:'Something went wrong.'; }
+  }));
+  root?.querySelector('[data-logout]')?.addEventListener('click', async () => { try { const data=await request({action:'logout'}); showUser(data.user); } catch {} });
+</script>

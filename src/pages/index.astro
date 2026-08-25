@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCarousel from '../components/ProductCarousel.astro';
+import ProductStage from '../components/ProductStage.astro';
+import { products } from '../data/products';
+import waterDroplets from '../assets/water-droplets.webp';
+const schema = [{ '@context':'https://schema.org','@type':'Organization',name:'Native Ceuticals',url:'https://www.serum72.com',logo:'https://www.serum72.com/assets/site/logo-nav-hi.png' },{ '@context':'https://schema.org','@type':'WebSite',name:'Serum 72',url:'https://www.serum72.com' }];
+---
+<BaseLayout title="Serum 72 | Clean Skincare Formulated with Science & Nature" description="Clinically inspired skincare formulated with science and nature." schema={schema}>
+  <section class="hero">
+    <img src="/assets/site/hero-banner.jpg" alt="Christopher David with Native Ceuticals Night Cream" fetchpriority="high" />
+    <div class="hero-copy"><p class="eyebrow">CLINICALLY INSPIRED. NATURE APPROVED.</p><h1>NIGHT TIME<br />REPAIR CREAM</h1><p class="hero-kicker">Repair. Nourish. Restore. — by <em>Serum 72</em></p><p class="hero-text">Wake up to smoother, healthier skin. Infused with Jojoba Oil, Kokum Butter, and botanical oils to hydrate, support collagen, and reduce fine lines overnight.</p><a class="btn btn-light" href="/shop/night-cream/">SHOP NOW</a></div>
+  </section>
+  <ProductStage />
+  <ProductCarousel products={products} />
+  <section class="conversion-band" style={`--conversion-bg:url(${waterDroplets.src})`}>
+    <div class="conversion-copy">
+      <h2>Ready to Reveal<br />Your Best Skin?</h2>
+      <p>Start your glow journey today.</p>
+      <a class="btn" href="/shop/">EXPLORE NOW</a>
+    </div>
+    <div class="trust-row">
+      <p><span class="trust-icon"><img src="/assets/icons/fast-shipping.svg" alt="" /></span><strong>Fast<br />Shipping</strong></p>
+      <p><span class="trust-icon"><img src="/assets/icons/money-back-guarantee.svg" alt="" /></span><strong>30-Day Money Back<br />Guarantee</strong></p>
+      <p><span class="trust-icon"><img src="/assets/icons/secure-checkout.svg" alt="" /></span><strong>Safe &amp; Secure<br />Checkout</strong></p>
+    </div>
+  </section>
+</BaseLayout>

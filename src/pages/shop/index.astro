@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { products } from '../../data/products';
+---
+<BaseLayout title="Shop Clean Skincare | Serum 72" description="Shop the complete Native Ceuticals skincare collection.">
+  <header class="page-hero"><h1>Shop</h1><p>Smart skincare. Real results.</p></header>
+  <div class="shop-grid">{products.map(product => <a class="product-card" href={`/shop/${product.slug}/`}><img src={product.image} alt={product.name} /><div><h2>{product.name}</h2><p>${product.price.toFixed(2)}</p></div></a>)}</div>
+</BaseLayout>
