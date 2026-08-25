@@ -2,7 +2,10 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CartDrawer from '../components/CartDrawer.astro';
+import SiteLoader from '../components/SiteLoader.astro';
+import SiteChat from '../components/SiteChat.astro';
 import favicon from '../assets/favicon.png';
+import '../styles/typography.css';
 import '../styles/global.css';
 
 interface Props { title: string; description: string; image?: string; schema?: Record<string, unknown> | Record<string, unknown>[]; }
@@ -29,14 +32,17 @@ const socialImage = new URL(image, Astro.site);
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <script is:inline>document.documentElement.classList.add('is-loading')</script>
   </head>
   <body>
+    <SiteLoader />
     <a class="skip-link" href="#content">Skip to content</a>
     <Header />
     <main id="content"><slot /></main>
     <CartDrawer />
     <Footer />
+    <SiteChat />
   </body>
 </html>

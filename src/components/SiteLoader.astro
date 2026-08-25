@@ -1,0 +1,27 @@
+<div id="site-loader" class="site-loader" role="status" aria-live="polite" aria-label="Loading Native Ceuticals">
+  <div class="site-loader-mark">
+    <img src="/assets/site/logo-white.png" alt="" />
+    <span class="site-loader-bar" aria-hidden="true"></span>
+  </div>
+</div>
+<script>
+  const loader = document.getElementById('site-loader');
+  const root = document.documentElement;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const started = performance.now();
+  const hide = () => {
+    if (!loader || loader.classList.contains('is-done')) return;
+    loader.classList.add('is-done');
+    root.classList.remove('is-loading');
+    root.classList.add('is-loaded');
+    window.setTimeout(() => loader.remove(), reduce ? 0 : 700);
+  };
+  root.classList.add('is-loading');
+  const finish = () => {
+    const wait = reduce ? 0 : Math.max(0, 900 - (performance.now() - started));
+    window.setTimeout(hide, wait);
+  };
+  if (document.readyState === 'complete') finish();
+  else window.addEventListener('load', finish, { once: true });
+  window.setTimeout(hide, 4500);
+</script>

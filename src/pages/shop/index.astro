@@ -1,8 +1,162 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { products } from '../../data/products';
+import '../../styles/shop.css';
+
+const roles: Record<string, { role: string; when: string; step: string; tease: string }> = {
+  'dual-action-cleanser': { role: 'Cleanse', when: 'anytime', step: '01', tease: 'Lift away the day without stripping the skin you still need.' },
+  serum: { role: 'Treat', when: 'night', step: '02', tease: 'Retinol, peptides, and hyaluronic acid for a smoother night shift.' },
+  'day-cream': { role: 'Hydrate', when: 'morning', step: '03', tease: 'A brightening morning cream that preps skin for everything ahead.' },
+  'mineral-sunscreen': { role: 'Protect', when: 'morning', step: '04', tease: 'Mineral SPF that stays comfortable so you actually wear it.' },
+  'night-cream': { role: 'Restore', when: 'night', step: '05', tease: 'Collagen-supporting overnight cream. Wake up looking like you slept.' }
+};
+const ritual = ['dual-action-cleanser', 'serum', 'day-cream', 'mineral-sunscreen', 'night-cream'];
+const catalog = ritual.map(slug => {
+  const product = products.find(item => item.slug === slug)!;
+  return { ...product, ...roles[slug], featured: slug === 'night-cream' };
+});
+const total = catalog.reduce((sum, item) => sum + item.price, 0);
 ---
-<BaseLayout title="Shop Clean Skincare | Serum 72" description="Shop the complete Native Ceuticals skincare collection.">
-  <header class="page-hero"><h1>Shop</h1><p>Smart skincare. Real results.</p></header>
-  <div class="shop-grid">{products.map(product => <a class="product-card" href={`/shop/${product.slug}/`}><img src={product.image} alt={product.name} /><div><h2>{product.name}</h2><p>${product.price.toFixed(2)}</p></div></a>)}</div>
+<BaseLayout title="Shop Clean Skincare | Serum 72" description="Shop the complete Native Ceuticals skincare collection — cleanse, treat, protect, hydrate, and restore.">
+  <section class="shop-hero">
+    <img src="/assets/site/contact-hero.jpg" alt="" />
+    <div class="shop-hero-copy">
+      <p class="eyebrow">THE COLLECTION</p>
+      <h1>Five products.<br />One ritual.</h1>
+      <p class="shop-rotator" aria-live="polite">Made to <span data-shop-word>cleanse</span>.</p>
+      <p>Build a simple, science-backed routine. Hover, filter, and play — then add what you love.</p>
+      <a class="btn" href="#shop-grid">EXPLORE THE LINE</a>
+    </div>
+  </section>
+
+  <div class="shop-marquee" aria-hidden="true">
+    <div class="shop-marquee-track">
+      {[...catalog, ...catalog].map((item, index) => <span data-copy={index}>{item.role} · {item.name}</span>)}
+    </div>
+  </div>
+
+  <section class="shop-studio">
+    <div class="shop-toolbar">
+      <div>
+        <p class="eyebrow">CHOOSE YOUR RHYTHM</p>
+        <h2>Shop by ritual</h2>
+      </div>
+      <div class="shop-filters" role="tablist" aria-label="Shop filters">
+        <button type="button" class="is-on" data-shop-filter="all">All five</button>
+        <button type="button" data-shop-filter="morning">Morning</button>
+        <button type="button" data-shop-filter="night">Night</button>
+        <button type="button" data-shop-filter="anytime">Anytime</button>
+      </div>
+    </div>
+
+    <ol class="shop-steps">
+      {catalog.map(item => (
+        <li>
+          <button type="button" data-shop-step={item.slug} data-shop-when={item.when}>
+            <span>{item.step}</span>
+            <strong>{item.role}</strong>
+            <em>{item.name}</em>
+          </button>
+        </li>
+      ))}
+    </ol>
+
+    <div class="shop-bento" id="shop-grid">
+      {catalog.map(item => (
+        <article class:list={['shop-card', item.featured && 'is-featured']} data-shop-card data-slug={item.slug} data-when={item.when} style={`--delay:${Number(item.step) * 70}ms`}>
+          <a class="shop-card-media" href={`/shop/${item.slug}/`}>
+            <img src={item.image} alt={item.name} />
+            <img src={item.storyImage} alt="" />
+            <span class="shop-card-step">{item.step} / {item.role}</span>
+          </a>
+          <div class="shop-card-copy">
+            <p class="shop-card-when">{item.when === 'anytime' ? 'Morning + night' : item.when}</p>
+            <h2><a href={`/shop/${item.slug}/`}>{item.name}</a></h2>
+            <p>{item.tease}</p>
+            <div class="shop-card-row">
+              <strong>${item.price.toFixed(2)}</strong>
+              <button type="button" data-add-to-cart data-slug={item.slug} data-name={item.name} data-price={item.price} data-image={item.image}>Add to cart</button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <aside class="shop-bundle">
+      <div>
+        <p class="eyebrow">THE FULL GLOW</p>
+        <h2>Take the complete ritual home.</h2>
+        <p>All five formulas, sequenced to cleanse, treat, hydrate, protect, and restore.</p>
+      </div>
+      <div class="shop-bundle-action">
+        <p><strong>${total.toFixed(2)}</strong> for the set</p>
+        {catalog.map(item => <button hidden data-silent data-add-to-cart data-slug={item.slug} data-name={item.name} data-price={item.price} data-image={item.image} data-routine-add></button>)}
+        <button class="btn" type="button" data-add-routine>ADD THE RITUAL</button>
+      </div>
+    </aside>
+  </section>
 </BaseLayout>
+<script>
+  const words = ['cleanse', 'treat', 'hydrate', 'protect', 'restore', 'glow'];
+  const word = document.querySelector<HTMLElement>('[data-shop-word]');
+  let wordIndex = 0;
+  if (word && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.setInterval(() => {
+      wordIndex = (wordIndex + 1) % words.length;
+      word.classList.add('is-swap');
+      window.setTimeout(() => {
+        word.textContent = words[wordIndex];
+        word.classList.remove('is-swap');
+      }, 180);
+    }, 1800);
+  }
+
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-shop-card]'));
+  const filters = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-shop-filter]'));
+  const steps = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-shop-step]'));
+  const applyFilter = (value: string, slug = '') => {
+    filters.forEach(button => button.classList.toggle('is-on', value !== 'focus' && button.dataset.shopFilter === value));
+    cards.forEach(card => {
+      const when = card.dataset.when || '';
+      const match = value === 'all'
+        || value === 'focus'
+        || when === value
+        || ((value === 'morning' || value === 'night') && when === 'anytime');
+      const focused = !slug || card.dataset.slug === slug;
+      card.hidden = value === 'focus' ? !focused : !match;
+      card.classList.toggle('is-lit', Boolean(slug) && card.dataset.slug === slug);
+    });
+    steps.forEach(step => step.classList.toggle('is-on', Boolean(slug) && step.dataset.shopStep === slug));
+  };
+  filters.forEach(button => button.addEventListener('click', () => applyFilter(button.dataset.shopFilter || 'all')));
+  steps.forEach(button => button.addEventListener('click', () => {
+    const slug = button.dataset.shopStep || '';
+    const already = button.classList.contains('is-on');
+    applyFilter(already ? 'all' : 'focus', already ? '' : slug);
+    if (!already) document.getElementById('shop-grid')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }));
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    cards.forEach(card => {
+      card.addEventListener('pointermove', event => {
+        const box = card.getBoundingClientRect();
+        const x = (event.clientX - box.left) / box.width;
+        const y = (event.clientY - box.top) / box.height;
+        card.style.setProperty('--tilt-x', `${(0.5 - y) * 10}deg`);
+        card.style.setProperty('--tilt-y', `${(x - 0.5) * 12}deg`);
+        card.style.setProperty('--spot-x', `${x * 100}%`);
+        card.style.setProperty('--spot-y', `${y * 100}%`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.setProperty('--tilt-x', '0deg');
+        card.style.setProperty('--tilt-y', '0deg');
+      });
+    });
+  }
+
+  document.querySelector('[data-add-routine]')?.addEventListener('click', () => {
+    document.querySelectorAll<HTMLButtonElement>('[data-routine-add]').forEach(button => button.click());
+    document.querySelector<HTMLButtonElement>('[data-cart-open]')?.click();
+  });
+</script>

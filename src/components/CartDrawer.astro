@@ -49,7 +49,9 @@
       const existing=items.find(item=>item.slug===slug);
       if(existing)existing.quantity+=requestedQuantity;
       else items.push({slug,name:add.dataset.name!,price:Number(add.dataset.price),image:add.dataset.image!,quantity:requestedQuantity});
-      write(items);open();return;
+      write(items);
+      if (!add.hasAttribute('data-silent')) open();
+      return;
     }
     if(target.closest('[data-cart-quantity],[data-cart-custom-quantity]'))return;
     const row=target.closest<HTMLElement>('.cart-item');if(!row)return;const items=read();const item=items.find(entry=>entry.slug===row.dataset.slug);if(!item)return;

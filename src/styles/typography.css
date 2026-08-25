@@ -1,0 +1,63 @@
+@font-face {
+  font-family: avenir-lt-w01_35-light1475496;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/avenir-light.woff2") format("woff2");
+}
+@font-face {
+  font-family: avenir-lt-w01_85-heavy1475544;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/avenir-heavy.woff2") format("woff2");
+}
+@font-face {
+  font-family: din-next-w01-light;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/din-next-light.woff2") format("woff2");
+}
+
+:root {
+  --serif: "playfair display", "Playfair Display", Georgia, serif;
+  --sans: avenir-lt-w01_35-light1475496, "Avenir Next", Avenir, Helvetica, Arial, sans-serif;
+  --sans-heavy: avenir-lt-w01_85-heavy1475544, avenir-lt-w01_35-light1475496, "Avenir Next", sans-serif;
+  --din: din-next-w01-light, "DIN Next", Helvetica, Arial, sans-serif;
+  --font-0: 400 clamp(56px, 7.8125vw, 100px)/1.4 var(--serif);
+  --font-1: 400 16px/1.4 var(--din);
+  --font-2: 400 clamp(32px, 3.906vw, 50px)/1.4 var(--serif);
+  --font-3: 400 clamp(28px, 3.281vw, 42px)/1.4 var(--serif);
+  --font-4: 400 clamp(22px, 2.344vw, 30px)/1.4 var(--serif);
+  --font-5: 400 clamp(20px, 1.875vw, 24px)/1.4 var(--serif);
+  --font-6: 400 clamp(16px, 1.719vw, 22px)/1.4 var(--sans);
+  --font-7: 400 20px/1.4 var(--serif);
+  --font-8: 400 17px/1.4 var(--sans);
+  --font-9: 400 14px/1.4 var(--sans);
+  --font-10: 400 12px/1.4 var(--din);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font: var(--font-8);
+}
+
+h1 { font: var(--font-0); }
+h2 { font: var(--font-2); }
+h3 { font: var(--font-5); }
+h4 { font: var(--font-4); }
+h5 { font: var(--font-6); }
+h6 { font: var(--font-9); }
+p, li, label, input, textarea, select, button {
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.4;
+}
+small { font: var(--font-9); }

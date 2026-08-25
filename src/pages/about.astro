@@ -1,12 +1,91 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="About Us | Serum 72" description="Discover Native Ceuticals and the science-and-nature philosophy behind Serum 72 skincare.">
-  <header class="page-hero"><p class="eyebrow">ABOUT SERUM 72</p><h1>Smart skincare.<br />Real results.</h1><p>At Serum 72, we believe great skincare should be effective, simple, and science-backed. Formulated and manufactured by Native Ceuticals with high-quality ingredients — skincare you can trust, every day.</p></header>
-  <article class="content wide-content">
-    <section><p class="eyebrow">OUR MISSION</p><h2>“To create skincare that works for your skin, not against it.”</h2><p>We are committed to creating high-performance skincare that combines science and nature in perfect balance. Every formula is thoughtfully developed to support your skin's natural processes, so you can look and feel your best every day.</p></section>
-    <section><div class="info-grid"><div><h3>Science-Backed Formulas</h3><p>Advanced skincare developed with proven actives.</p></div><div><h3>Skin Health Focused</h3><p>Our formulas support long-term skin health and resilience.</p></div><div><h3>Clean and Conscious Ingredients</h3><p>We use high-quality ingredients that are safe and effective.</p></div><div><h3>Simple. Effective. Essential.</h3><p>Skincare made simple so you can stay consistent every day.</p></div></div></section>
-    <section><p class="eyebrow">OUR STORY</p><h2>Rooted in nature. Driven by science.</h2><p>Native Ceuticals was born from a belief that skincare should be effective, non-complicated, and rooted in high-quality ingredients that work in harmony with your skin. We combine the power of native botanicals with clinically studied actives to deliver real, visible results.</p><p>Every product is crafted with purpose—to cleanse, treat, protect, hydrate and restore. Our approach is simple: high-quality ingredients, intentional formulas, and a commitment to your skin's long-term health.</p></section>
-    <section><p class="eyebrow">MADE WITH PASSION. GUIDED BY PURPOSE.</p><h2>Our Values</h2><div class="info-grid"><div><h3>Integrity</h3><p>We do what's right — no fillers, no compromises.</p></div><div><h3>Quality</h3><p>We never compromise on our standard.</p></div><div><h3>Transparency</h3><p>Clear ingredients, clear communication.</p></div><div><h3>Empowerment</h3><p>We empower you to feel confident in your skin.</p></div></div></section>
-  </article>
+<BaseLayout title="About Serum 72 | Clinically Inspired. Nature Approved." description="At Serum 72, we believe great skincare should be effective, simple, and science-backed. Formulated and manufactured by Native Ceuticals.">
+  <section class="about-hero">
+    <img src="/assets/site/about-hero.jpg" alt="Native Ceuticals skincare lineup" fetchpriority="high" />
+    <div class="about-hero-copy">
+      <p class="eyebrow">ABOUT SERUM 72</p>
+      <h1>Smart skincare.<br />Real results.</h1>
+      <p>At Serum 72, we believe great skincare should be effective, simple, and science-backed. Formulated and manufactured by Native Ceuticals with high-quality ingredients — skincare you can trust, every day.</p>
+    </div>
+  </section>
+
+  <section class="about-mission">
+    <div class="about-wrap about-mission-split">
+      <img src="/assets/site/about-story.jpg" alt="Close-up of glowing skin" />
+      <div class="about-mission-copy">
+        <div>
+          <p class="eyebrow">OUR MISSION</p>
+          <h2>To Create Skincare That Works For Your Skin, Not Against It.</h2>
+          <p>We care committed to creating high-performance skincare that combines science and nature in perfect balance. Every formula is thoughtfully developed to support your skin's natural processes, so you can look and feel your best every day.</p>
+        </div>
+        <ul class="about-pillars">
+          <li>
+            <img class="about-icon" src="/assets/site/about-icon-leaf.png" alt="" />
+            <h3>Science-Backed Formulas</h3>
+            <p>Advance skincare developed with proven actives.</p>
+          </li>
+          <li>
+            <img class="about-icon" src="/assets/site/about-icon-leaf.png" alt="" />
+            <h3>Skin Health Focused</h3>
+            <p>Our formulas support long-term skin health and resilience.</p>
+          </li>
+          <li>
+            <img class="about-icon" src="/assets/site/about-icon-leaf.png" alt="" />
+            <h3>Clean And Conscious Ingredients</h3>
+            <p>We use high-quality ingredients that are safe and effective.</p>
+          </li>
+          <li>
+            <img class="about-icon" src="/assets/site/about-icon-leaf.png" alt="" />
+            <h3>Simple. Effective. Essential</h3>
+            <p>Skincare made simple so you can stay consistent every day.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-story">
+    <div class="about-wrap about-story-split">
+      <div>
+        <p class="eyebrow">OUR STORY</p>
+        <h2>Rooted In Nature.<br />Driven By Science.</h2>
+        <p>Native Ceuticals was born from a belief that skincare should be effective, non-complicated, and rooted in high ingredients that works in harmony with your skin. We combine the power of native botanicals with clinically studied actives to deliver real visible results.</p>
+        <p>Every product is crafted with purpose-to cleanse, treat, protect, hydrate and restore. Our approach is simple, high-quality ingredients, intentional formulas, and a commitment to your skin's long-term health.</p>
+      </div>
+      <img src="/assets/site/about-values.jpg" alt="Woman holding Native Ceuticals Day Cream" />
+    </div>
+  </section>
+
+  <section class="about-values">
+    <div class="about-wrap about-values-split">
+      <div class="about-values-intro">
+        <p class="eyebrow">MADE WITH PASSION. GUIDED BY PURPOSE</p>
+        <h2>Our Values</h2>
+      </div>
+      <ul class="about-values-grid">
+        <li>
+          <img class="about-icon about-icon-light" src="/assets/site/about-icon-integrity.png" alt="" />
+          <h3>Integrity</h3>
+          <p>We do what’s right — no fillers, no compromises.</p>
+        </li>
+        <li>
+          <img class="about-icon about-icon-light" src="/assets/site/about-icon-quality.png" alt="" />
+          <h3>Quality</h3>
+          <p>We never compromise on our standard.</p>
+        </li>
+        <li>
+          <img class="about-icon about-icon-light" src="/assets/site/about-icon-transparency.png" alt="" />
+          <h3>Transparency</h3>
+          <p>Clear ingredients, clear communication.</p>
+        </li>
+        <li>
+          <img class="about-icon about-icon-light" src="/assets/site/about-icon-empowerment.png" alt="" />
+          <h3>Empowerment</h3>
+          <p>We empower you to feel confident on your skin.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,0 +1,74 @@
+.shop-hero { position:relative; display:grid; align-items:end; min-height:min(78vh,760px); padding:90px 6vw 72px; overflow:hidden; background:#111; color:#fff; }
+.shop-hero>img { position:absolute; inset:0; width:100%; max-width:none; height:100%; object-fit:cover; object-position:70% center; filter:grayscale(.2); }
+.shop-hero:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.28) 52%,transparent 78%); }
+.shop-hero-copy { position:relative; z-index:1; max-width:720px; }
+.shop-hero h1 { margin:0; font:var(--font-0); }
+.shop-hero-copy>p { max-width:520px; margin:18px 0 0; font:var(--font-8); color:#ddd; }
+.shop-rotator { margin:18px 0 0; font:var(--font-4); color:#fff; }
+.shop-rotator span { display:inline-block; min-width:7ch; border-bottom:1px solid rgba(255,255,255,.35); transition:opacity .18s ease,transform .18s ease; }
+.shop-rotator span.is-swap { opacity:0; transform:translateY(.35em); }
+.shop-hero .btn { margin-top:28px; }
+.shop-marquee { overflow:hidden; border-block:1px solid #ddd; background:#f4f4f4; }
+.shop-marquee-track { display:flex; gap:48px; width:max-content; padding:14px 0; font:var(--font-9); letter-spacing:.16em; text-transform:uppercase; animation:shop-marquee 28s linear infinite; }
+.shop-marquee-track span { white-space:nowrap; }
+.shop-studio { padding:70px 5vw 100px; }
+.shop-toolbar { display:flex; justify-content:space-between; align-items:end; gap:28px; margin-bottom:32px; }
+.shop-toolbar h2 { margin:0; font:var(--font-2); }
+.shop-filters { display:flex; flex-wrap:wrap; gap:8px; }
+.shop-filters button,.shop-steps button { border:1px solid #ccc; background:#fff; color:#111; font:var(--font-9); letter-spacing:.08em; text-transform:uppercase; cursor:pointer; }
+.shop-filters button { min-height:42px; padding:0 16px; }
+.shop-filters button.is-on,.shop-steps button.is-on { background:#111; color:#fff; border-color:#111; }
+.shop-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin:0 0 42px; padding:0; list-style:none; }
+.shop-steps button { display:grid; gap:4px; width:100%; min-height:92px; padding:14px 12px; text-align:left; transition:transform .28s cubic-bezier(.22,1,.36,1),background .2s ease,color .2s ease; }
+.shop-steps button span { font:var(--font-10); color:#888; }
+.shop-steps button.is-on span { color:#bbb; }
+.shop-steps strong { font:var(--font-5); text-transform:none; letter-spacing:0; }
+.shop-steps em { font:var(--font-10); font-style:normal; letter-spacing:.04em; }
+.shop-steps button:hover { transform:translateY(-4px); }
+.shop-bento { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
+.shop-card { position:relative; display:grid; grid-template-rows:auto 1fr; grid-column:span 4; overflow:hidden; background:#f3f3f3; transform:perspective(900px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)); transition:transform .2s ease,opacity .35s ease,filter .35s ease; animation:shop-rise .7s cubic-bezier(.22,1,.36,1) both; animation-delay:var(--delay,0ms); }
+.shop-card.is-featured { grid-column:span 8; }
+.shop-card.is-featured .shop-card-media img { aspect-ratio:4/3; }
+.shop-card.is-lit { z-index:2; box-shadow:0 24px 50px rgba(0,0,0,.14); }
+.shop-card[hidden] { display:none; }
+.shop-card-media { position:relative; display:block; overflow:hidden; background:#eee; }
+.shop-card-media img { width:100%; aspect-ratio:1; object-fit:contain; background:#f6f6f6; transition:opacity .45s ease,transform .7s cubic-bezier(.22,1,.36,1); }
+.shop-card-media img+img { position:absolute; inset:0; opacity:0; object-fit:cover; }
+.shop-card:hover .shop-card-media img:first-child { transform:scale(.96); }
+.shop-card:hover .shop-card-media img+img { opacity:1; transform:scale(1.04); }
+.shop-card-media:after { content:""; position:absolute; inset:0; background:radial-gradient(circle at var(--spot-x,50%) var(--spot-y,40%), rgba(255,255,255,.22), transparent 42%); opacity:0; transition:opacity .25s ease; pointer-events:none; }
+.shop-card:hover .shop-card-media:after { opacity:1; }
+.shop-card-step { position:absolute; z-index:1; top:14px; left:14px; padding:6px 10px; background:rgba(255,255,255,.86); font:var(--font-10); letter-spacing:.12em; text-transform:uppercase; }
+.shop-card-copy { display:grid; align-content:start; gap:8px; padding:22px 22px 20px; }
+.shop-card-when { margin:0; font:var(--font-10); letter-spacing:.14em; text-transform:uppercase; color:#777; }
+.shop-card-copy h2 { margin:0; font:var(--font-4); }
+.shop-card-copy>p { margin:0; max-width:36ch; color:#555; }
+.shop-card-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:10px; }
+.shop-card-row strong { font:var(--font-5); }
+.shop-card-row button { min-height:42px; padding:0 16px; border:1px solid #111; background:#111; color:#fff; font:400 12px/1 var(--sans-heavy); letter-spacing:.1em; text-transform:uppercase; cursor:pointer; }
+.shop-card-row button:hover { background:#fff; color:#111; }
+.shop-bundle { display:grid; grid-template-columns:1.3fr .7fr; gap:40px; align-items:center; margin-top:64px; padding:42px 40px; background:#111; color:#fff; }
+.shop-bundle h2 { margin:8px 0 10px; font:var(--font-2); }
+.shop-bundle p { margin:0; color:#ccc; }
+.shop-bundle-action { display:grid; justify-items:start; gap:16px; }
+.shop-bundle-action p { color:#fff; }
+.shop-bundle .btn { border-color:#fff; }
+@keyframes shop-marquee { to { transform:translateX(-50%); } }
+@keyframes shop-rise { from { opacity:0; translate:0 28px; } to { opacity:1; translate:0 0; } }
+@media (prefers-reduced-motion:reduce) {
+  .shop-marquee-track,.shop-card { animation:none; }
+  .shop-card { transform:none; }
+}
+@media (max-width:1100px) {
+  .shop-card,.shop-card.is-featured { grid-column:span 6; }
+  .shop-steps { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:800px) {
+  .shop-hero { min-height:0; padding:72px 22px 56px; }
+  .shop-hero:after { background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.72)); }
+  .shop-toolbar,.shop-bundle { grid-template-columns:1fr; }
+  .shop-toolbar { display:grid; }
+  .shop-steps { grid-template-columns:1fr 1fr; }
+  .shop-card,.shop-card.is-featured { grid-column:span 12; }
+  .shop-bundle { padding:32px 22px; }
+}

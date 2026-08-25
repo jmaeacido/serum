@@ -278,6 +278,7 @@
 .product-card strong {
   display: block;
   margin-bottom: 0.65rem;
+  font-family: var(--sans-heavy);
   font-size: clamp(1rem, 1.08vw, 1.12rem);
   letter-spacing: 0.14em;
   line-height: 1;
@@ -288,6 +289,7 @@
 
 .product-card span {
   display: block;
+  font-family: var(--sans);
   font-size: clamp(0.94rem, 0.98vw, 1.04rem);
   line-height: 1.65;
   letter-spacing: 0.015em;
