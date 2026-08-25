@@ -1,0 +1,12 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+<AdminLayout title="Serum 72 | Admin">
+  <header class="admin-header"><a class="admin-brand" href="/"><img src="/assets/site/logo-white.png" alt="Native Ceuticals" /></a><nav class="admin-nav"><a href="/admin/" aria-current="page">Overview</a><a href="/admin/emails/">Emails</a><button type="button" data-logout>Log out</button></nav></header>
+  <main class="admin-main"><p class="eyebrow">ADMIN</p><h1>Operations overview</h1><p class="admin-lead">Manage customer messages and transactional email activity from one protected workspace.</p><section class="admin-panel"><h2>Emails &amp; contact messages</h2><p class="admin-lead">Review Contact Us and chat submissions, delivery status, recipients, and reply-to addresses.</p><p><a class="btn" href="/admin/emails/">VIEW EMAIL RECORDS</a></p></section><section class="admin-panel"><h2>Orders &amp; purchases</h2><p class="admin-lead">Order administration will activate when Serum 72’s server-side checkout and order storage are connected.</p></section></main>
+</AdminLayout>
+<script>
+  const api = 'http://localhost/serum72/api';
+  fetch(`${api}/admin-session.php`, { credentials:'include' }).then(r=>r.json()).then(data=>{if(!data.authenticated)location.replace('/admin/login/');}).catch(()=>location.replace('/admin/login/'));
+  document.querySelector('[data-logout]')?.addEventListener('click',async()=>{try{await fetch(`${api}/admin-logout.php`,{method:'POST',credentials:'include'});}finally{location.href='/admin/login/';}});
+</script>

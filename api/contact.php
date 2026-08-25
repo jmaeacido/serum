@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/admin-bootstrap.php';
+
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin === 'http://localhost:4321' || $origin === 'http://127.0.0.1:4321') {
     header("Access-Control-Allow-Origin: {$origin}");
@@ -91,6 +93,24 @@ $sent = $brevoKey !== ''
         'Reply-To: ' . $name . ' <' . $email . '>',
         'Content-Type: text/plain; charset=UTF-8',
     ]));
+
+s72_archive_email([
+    'direction' => 'inbound',
+    'from' => $name . ' <' . $email . '>',
+    'to' => $recipient,
+    'subject' => $subject,
+    'preview' => mb_substr($message ?: 'Contact details submitted without a message.', 0, 240),
+    'status' => 'received',
+    'source' => $source,
+]);
+s72_archive_email([
+    'direction' => 'outbound',
+    'from' => $fromName . ' <' . $fromEmail . '>',
+    'to' => $recipient,
+    'subject' => $subject,
+    'preview' => mb_substr($body, 0, 240),
+    'status' => $sent ? 'sent' : 'failed',
+]);
 
 if (!$sent) {
     error_log('Serum 72 contact delivery failed for ' . $email);
