@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Order confirmation | Serum 72" description="Your Serum 72 order confirmation.">
+  <header class="page-hero"><h1>Thank you</h1></header><main class="order-shell"><section class="order-card"><div data-order-loading><h2>Confirming your payment…</h2></div><div data-order-success hidden><h2>Your order is confirmed.</h2><p>Order <strong data-order-id></strong></p><p>We’ve received your secure payment. A confirmation will be sent to <span data-order-email></span>.</p><a class="btn" href="/shop/">CONTINUE SHOPPING</a></div><div data-order-error hidden><h2>We couldn’t confirm this payment.</h2><p data-order-error-text></p><a class="btn" href="/checkout/">RETURN TO CHECKOUT</a></div></section></main>
+</BaseLayout>
+<script>
+  const sessionId=new URLSearchParams(location.search).get('session_id'),loading=document.querySelector<HTMLElement>('[data-order-loading]'),success=document.querySelector<HTMLElement>('[data-order-success]'),failure=document.querySelector<HTMLElement>('[data-order-error]');
+  (async()=>{try{if(!sessionId)throw new Error('No checkout session was provided.');const response=await fetch('/api/checkout-complete.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId})}),data=await response.json();if(!response.ok)throw new Error(data.error||'Payment confirmation failed.');localStorage.removeItem('serum72_cart');const id=document.querySelector('[data-order-id]'),email=document.querySelector('[data-order-email]');if(id)id.textContent=data.order.id;if(email)email.textContent=data.order.customer?.email||'your email address';if(loading)loading.hidden=true;if(success)success.hidden=false;}catch(reason){if(loading)loading.hidden=true;if(failure)failure.hidden=false;const text=document.querySelector('[data-order-error-text]');if(text)text.textContent=reason instanceof Error?reason.message:'Payment confirmation failed.';}})();
+</script>
+<style>.order-shell{min-height:50vh;padding:70px 5vw;background:#f5f5f3}.order-card{max-width:700px;margin:auto;padding:44px;background:#fff;text-align:center}.order-card h2{margin-top:0}.order-card .btn{margin-top:20px}</style>

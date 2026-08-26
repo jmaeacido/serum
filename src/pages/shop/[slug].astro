@@ -25,10 +25,10 @@ const schema = { '@context':'https://schema.org','@type':'Product',name:product.
       <section class="purchase-panel">
         <div class="purchase-scroll">
           <h1>{product.name}</h1><p class="live-price">${product.price.toFixed(2)}</p><p class="product-description">{product.short}</p>
-          <fieldset class="price-options"><legend>Price Options</legend><label><input type="radio" name="purchase-option" checked /><span><b>One-time purchase</b><small>${product.price.toFixed(2)}</small></span></label><label><input type="radio" name="purchase-option" /><span><b>Subscribe Monthly</b><em>Save 10%</em><small>${product.subscriptionPrice.toFixed(2)} every month until canceled</small></span></label></fieldset>
+          <fieldset class="price-options"><legend>Price Options</legend><label><input type="radio" name="purchase-option" value="once" checked /><span><b>One-time purchase</b><small>${product.price.toFixed(2)}</small></span></label><label><input type="radio" name="purchase-option" value="subscribe" /><span><b>Subscribe Monthly</b><em>Save 10%</em><small>${product.subscriptionPrice.toFixed(2)} every month until canceled</small></span></label></fieldset>
           <div class="product-accordions"><details open><summary>Ingredients</summary><p>{product.ingredients}</p></details><details><summary>How it works</summary><p><strong>Suggested Use:</strong><br />{product.suggestedUse}</p><p>This product is not evaluated by the FDA and is not intended to diagnose, treat, or cure any disease.</p></details><details><summary>What is a COA &amp; Why It Matters?</summary><p>A Certificate of Analysis is a lab-tested quality report that verifies purity, potency, and safety.</p></details><details><summary>What does the {product.name} do?</summary><p>{product.paragraphs[1]}</p></details><details><summary>When should I use the {product.name}?</summary><p>{product.suggestedUse}</p></details></div>
         </div>
-        <div class="purchase-actions"><label class="quantity-label" for="quantity">Quantity</label><div class="quantity-picker"><button type="button" data-qty-minus aria-label="Remove one">−</button><input id="quantity" value="1" inputmode="numeric" aria-label="Quantity" /><button type="button" data-qty-plus aria-label="Add one">+</button></div><div class="purchase-buttons"><button class="product-add" type="button" data-add-to-cart data-slug={product.slug} data-name={product.name} data-price={product.price} data-image={product.image}>Add to Cart</button><a class="product-buy" href="/checkout/">BUY NOW</a></div></div>
+        <div class="purchase-actions"><label class="quantity-label" for="quantity">Quantity</label><div class="quantity-picker"><button type="button" data-qty-minus aria-label="Remove one">−</button><input id="quantity" value="1" inputmode="numeric" aria-label="Quantity" /><button type="button" data-qty-plus aria-label="Add one">+</button></div><div class="purchase-buttons"><button class="product-add" type="button" data-add-to-cart data-slug={product.slug} data-name={product.name} data-price={product.price} data-subscription-price={product.subscriptionPrice} data-image={product.image}>Add to Cart</button><a class="product-buy" href="/checkout/">BUY NOW</a></div></div>
       </section>
     </div>
   </article>
@@ -53,6 +53,8 @@ const schema = { '@context':'https://schema.org','@type':'Product',name:product.
     }
   }
   const quantity = document.querySelector<HTMLInputElement>('#quantity');
+  const mainAdd = document.querySelector<HTMLButtonElement>('.purchase-actions [data-add-to-cart]');
+  document.querySelectorAll<HTMLInputElement>('input[name="purchase-option"]').forEach(option => option.addEventListener('change', () => { if (mainAdd) mainAdd.dataset.purchaseType = option.value; }));
   document.querySelector('[data-qty-minus]')?.addEventListener('click', () => { if (quantity) quantity.value = String(Math.max(1, Number(quantity.value) - 1)); });
   document.querySelector('[data-qty-plus]')?.addEventListener('click', () => { if (quantity) quantity.value = String(Math.max(1, Number(quantity.value) + 1)); });
   const galleryStage = document.querySelector<HTMLElement>('[data-gallery-stage]');
@@ -135,11 +137,12 @@ const schema = { '@context':'https://schema.org','@type':'Product',name:product.
     setText('[data-quick-subscription]', `$${Number(button.dataset.subscriptionPrice).toFixed(2)} every month until canceled`);
     const details = quickModal.querySelector<HTMLAnchorElement>('[data-quick-details]');
     if (details) details.href = `/shop/${button.dataset.slug}/`;
-    if (quickCart) Object.assign(quickCart.dataset, { slug:button.dataset.slug || '', name:button.dataset.name || '', price:button.dataset.price || '', image:button.dataset.image || '' });
+    if (quickCart) Object.assign(quickCart.dataset, { slug:button.dataset.slug || '', name:button.dataset.name || '', price:button.dataset.price || '', subscriptionPrice:button.dataset.subscriptionPrice || '', purchaseType:'once', image:button.dataset.image || '' });
     quickModal.showModal();
   }));
   quickModal?.querySelector('[data-quick-view-close]')?.addEventListener('click', () => quickModal.close());
   quickModal?.querySelector('[data-quick-minus]')?.addEventListener('click', () => { quickQuantity = Math.max(1, quickQuantity - 1); renderQuickQuantity(); });
   quickModal?.querySelector('[data-quick-plus]')?.addEventListener('click', () => { quickQuantity += 1; renderQuickQuantity(); });
   quickDots.forEach(dot => dot.addEventListener('click', () => { const index = Number(dot.dataset.index); if (!quickImage || !quickImages[index]) return; quickImage.src = quickImages[index]; quickDots.forEach((item, itemIndex) => item.classList.toggle('active', itemIndex === index)); }));
+  quickModal?.querySelectorAll<HTMLInputElement>('input[name="quick-option"]').forEach((option, index) => option.addEventListener('change', () => { if (quickCart) quickCart.dataset.purchaseType = index === 1 ? 'subscribe' : 'once'; }));
 </script>

@@ -1,0 +1,3 @@
+<FilesMatch "^(commerce|stripe)\.php$">
+  Require all denied
+</FilesMatch>

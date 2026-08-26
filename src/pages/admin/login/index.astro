@@ -5,7 +5,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
   <main class="login-shell"><section class="login-panel"><img src="/assets/site/logo-nav.png" alt="Native Ceuticals" /><p class="eyebrow">SERUM 72 ADMIN</p><h1>Welcome back.</h1><p>Sign in to review website messages and transactional email activity.</p><form data-login><label class="field"><span>Password</span><input type="password" name="password" autocomplete="current-password" required autofocus /></label><button class="btn" type="submit">SIGN IN</button><p class="error" role="alert" data-error></p></form></section></main>
 </AdminLayout>
 <script>
-  const api = 'http://localhost/serum72/api';
+  const api = location.port === '4321' ? 'http://localhost/serum72/api' : `${location.pathname.split('/admin/')[0]}/api`;
   const form = document.querySelector<HTMLFormElement>('[data-login]')!;
   const error = document.querySelector<HTMLElement>('[data-error]')!;
   fetch(`${api}/admin-session.php`,{credentials:'include'}).then(r=>r.json()).then(data=>{if(data.authenticated)location.replace('/admin/');}).catch(()=>{});

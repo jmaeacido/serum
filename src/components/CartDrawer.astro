@@ -5,7 +5,7 @@
   <footer class="cart-footer" data-cart-footer hidden><div class="cart-subtotal-row"><span>Subtotal (<span data-cart-heading-count>0</span> <span data-cart-item-word>items</span>)</span><strong data-cart-subtotal>$0.00</strong></div><a class="cart-express" href="/checkout/" aria-label="Continue to checkout with Google Pay"><span>Buy with</span><img src="https://www.gstatic.com/instantbuy/svg/dark_gpay.svg" alt="Google Pay" /></a><div class="cart-or"><span>OR</span></div><a class="btn" href="/checkout/">Checkout</a></footer>
 </aside>
 <script>
-  type CartItem = { slug:string; name:string; price:number; image:string; quantity:number };
+  type CartItem = { slug:string; name:string; price:number; image:string; quantity:number; purchaseType?:'once'|'subscribe' };
   const key = 'serum72_cart';
   const drawer = document.querySelector<HTMLElement>('[data-cart-drawer]');
   const overlay = document.querySelector<HTMLElement>('[data-cart-overlay]');
@@ -47,8 +47,10 @@
       const quickQuantity=add.closest('.quick-view-modal')?.querySelector<HTMLElement>('[data-quick-quantity]')?.textContent;
       const requestedQuantity=Math.max(1,Math.floor(Number(add.dataset.quantity||productQuantity||quickQuantity||1))||1);
       const existing=items.find(item=>item.slug===slug);
-      if(existing)existing.quantity+=requestedQuantity;
-      else items.push({slug,name:add.dataset.name!,price:Number(add.dataset.price),image:add.dataset.image!,quantity:requestedQuantity});
+      const purchaseType=(add.dataset.purchaseType==='subscribe'?'subscribe':'once') as 'once'|'subscribe';
+      const price=purchaseType==='subscribe'?Number(add.dataset.subscriptionPrice||add.dataset.price):Number(add.dataset.price);
+      if(existing){existing.quantity+=requestedQuantity;existing.purchaseType=purchaseType;existing.price=price;}
+      else items.push({slug,name:add.dataset.name!,price,image:add.dataset.image!,quantity:requestedQuantity,purchaseType});
       write(items);
       if (!add.hasAttribute('data-silent')) open();
       return;
