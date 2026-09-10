@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import CartDrawer from '../components/CartDrawer.astro';
 import SiteLoader from '../components/SiteLoader.astro';
 import SiteChat from '../components/SiteChat.astro';
+import LeadCapturePopup from '../components/LeadCapturePopup.astro';
 import favicon from '../assets/favicon.png';
 import '../styles/typography.css';
 import '../styles/global.css';
@@ -44,5 +45,6 @@ const socialImage = new URL(image, Astro.site);
     <CartDrawer />
     <Footer />
     <SiteChat />
+    <LeadCapturePopup />
   </body>
 </html>

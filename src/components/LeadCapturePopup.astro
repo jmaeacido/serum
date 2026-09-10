@@ -1,0 +1,150 @@
+<dialog class="lead-popup" id="lead-popup" aria-labelledby="lead-popup-title">
+  <button type="button" class="lead-popup-close" data-lead-close aria-label="Close offer">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+  </button>
+  <div class="lead-popup-grid">
+    <div class="lead-popup-copy">
+      <div class="lead-popup-lockup">
+        <p class="lead-popup-brand">Serum 72</p>
+        <p class="lead-popup-tag">Science-Backed Skincare</p>
+      </div>
+      <h2 id="lead-popup-title">Better Skin<br />Starts Here.</h2>
+      <span class="lead-popup-rule" aria-hidden="true"></span>
+      <p class="lead-popup-offer">20% Off</p>
+      <p class="lead-popup-offer-sub">Your First Order</p>
+      <form class="lead-popup-form" data-lead-form novalidate>
+        <input class="contact-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input name="firstName" autocomplete="given-name" required placeholder="First Name" aria-label="First Name" />
+        <input name="email" type="email" autocomplete="email" required placeholder="Email Address" aria-label="Email Address" />
+        <button type="submit" class="lead-popup-submit">Get 20% Off</button>
+        <p class="lead-popup-status" data-lead-status hidden></p>
+      </form>
+    </div>
+    <div class="lead-popup-media" aria-hidden="true">
+      <img src="/assets/site/serum-crop.jpg" alt="" width="900" height="700" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'serum72_lead_popup';
+  const dialog = document.getElementById('lead-popup') as HTMLDialogElement | null;
+  const form = document.querySelector<HTMLFormElement>('[data-lead-form]');
+  const status = document.querySelector<HTMLElement>('[data-lead-status]');
+  const closeBtn = document.querySelector('[data-lead-close]');
+
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  const skipPaths = ['/checkout', '/login', '/order'];
+  const shouldSkip = skipPaths.some((p) => path === p || path.startsWith(`${p}/`));
+
+  const alreadySubscribed = () => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw) as { submitted?: boolean };
+      return Boolean(data.submitted);
+    } catch {
+      return false;
+    }
+  };
+
+  const rememberSubmitted = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ submitted: true }));
+    } catch {
+      /* ignore quota / private mode */
+    }
+  };
+
+  const closePopup = (submitted = false) => {
+    dialog?.close();
+    if (submitted) rememberSubmitted();
+  };
+
+  const openPopup = () => {
+    if (!dialog || dialog.open || shouldSkip || alreadySubscribed()) return;
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else dialog.setAttribute('open', '');
+  };
+
+  const waitForLoad = () =>
+    new Promise<void>((resolve) => {
+      if (document.documentElement.classList.contains('is-loaded')) {
+        resolve();
+        return;
+      }
+      const observer = new MutationObserver(() => {
+        if (document.documentElement.classList.contains('is-loaded')) {
+          observer.disconnect();
+          resolve();
+        }
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      window.setTimeout(() => {
+        observer.disconnect();
+        resolve();
+      }, 5000);
+    });
+
+  closeBtn?.addEventListener('click', () => closePopup(false));
+  dialog?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closePopup(false);
+  });
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) closePopup(false);
+  });
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) button.disabled = true;
+    if (status) {
+      status.hidden = true;
+      status.textContent = '';
+      status.classList.remove('is-error', 'is-success');
+    }
+    try {
+      const values = Object.fromEntries(new FormData(form).entries());
+      const apiUrl = ['4321', '4322'].includes(window.location.port)
+        ? 'http://localhost/serum72/api/contact.php'
+        : '/api/contact.php';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'popup',
+          firstName: values.firstName,
+          email: values.email,
+          website: values.website,
+          message: 'Requested 20% off first order via lead popup.',
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to claim your offer.');
+      if (status) {
+        status.hidden = false;
+        status.classList.add('is-success');
+        status.textContent = 'You’re in — check your inbox for your 20% off code.';
+      }
+      form.reset();
+      window.setTimeout(() => closePopup(true), 1600);
+    } catch (error) {
+      if (status) {
+        status.hidden = false;
+        status.classList.add('is-error');
+        status.textContent = error instanceof Error ? error.message : 'Unable to claim your offer. Please try again.';
+      }
+      if (button) button.disabled = false;
+    }
+  });
+
+  void waitForLoad().then(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.setTimeout(openPopup, reduce ? 200 : 1800);
+  });
+</script>
