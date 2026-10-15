@@ -4,25 +4,24 @@ import { products } from '../../data/products';
 import '../../styles/shop.css';
 
 const roles: Record<string, { role: string; when: string; step: string; tease: string }> = {
-  'dual-action-cleanser': { role: 'Cleanse', when: 'anytime', step: '01', tease: 'Lift away the day without stripping the skin you still need.' },
-  serum: { role: 'Treat', when: 'night', step: '02', tease: 'Retinol, peptides, and hyaluronic acid for a smoother night shift.' },
-  'day-cream': { role: 'Hydrate', when: 'morning', step: '03', tease: 'A brightening morning cream that preps skin for everything ahead.' },
-  'mineral-sunscreen': { role: 'Protect', when: 'morning', step: '04', tease: 'Mineral SPF that stays comfortable so you actually wear it.' },
-  'night-cream': { role: 'Restore', when: 'night', step: '05', tease: 'Collagen-supporting overnight cream. Wake up looking like you slept.' }
+  'premium-cleanser': { role: 'Cleanse', when: 'anytime', step: '01', tease: 'A gentle foaming cleanse with aloe vera, ectoin, lavender, and rose.' },
+  'fortify-day-cream': { role: 'Fortify', when: 'morning', step: '02', tease: 'Peptides and botanicals brighten, hydrate, and support the skin barrier.' },
+  'radiance-serum': { role: 'Renew', when: 'night', step: '03', tease: 'Retinol and hyaluronic acid refine texture and revive your glow.' },
+  'night-cream': { role: 'Restore', when: 'night', step: '04', tease: 'MSM, ectoin, and rich hydration support overnight renewal.' }
 };
-const ritual = ['dual-action-cleanser', 'serum', 'day-cream', 'mineral-sunscreen', 'night-cream'];
+const ritual = ['premium-cleanser', 'fortify-day-cream', 'radiance-serum', 'night-cream'];
 const catalog = ritual.map(slug => {
   const product = products.find(item => item.slug === slug)!;
   return { ...product, ...roles[slug], featured: slug === 'night-cream' };
 });
 const total = catalog.reduce((sum, item) => sum + item.price, 0);
 ---
-<BaseLayout title="Shop Clean Skincare | Serum 72" description="Shop the complete Native Ceuticals skincare collection — cleanse, treat, protect, hydrate, and restore.">
+<BaseLayout title="Shop Clean Skincare | Serum 72" description="Shop the complete Native Ceuticals skincare collection — cleanse, fortify, renew, and restore.">
   <section class="shop-hero">
     <img src="/assets/site/contact-hero.jpg" alt="" />
     <div class="shop-hero-copy">
       <p class="eyebrow">THE COLLECTION</p>
-      <h1>Five products.<br />One ritual.</h1>
+      <h1>Four products.<br />One ritual.</h1>
       <p class="shop-rotator" aria-live="polite">Made to <span data-shop-word>cleanse</span>.</p>
       <p>Build a simple, science-backed routine. Hover, filter, and play — then add what you love.</p>
       <a class="btn" href="#shop-grid">EXPLORE THE LINE</a>
@@ -42,7 +41,7 @@ const total = catalog.reduce((sum, item) => sum + item.price, 0);
         <h2>Shop by ritual</h2>
       </div>
       <div class="shop-filters" role="tablist" aria-label="Shop filters">
-        <button type="button" class="is-on" data-shop-filter="all">All five</button>
+        <button type="button" class="is-on" data-shop-filter="all">All four</button>
         <button type="button" data-shop-filter="morning">Morning</button>
         <button type="button" data-shop-filter="night">Night</button>
         <button type="button" data-shop-filter="anytime">Anytime</button>
@@ -86,7 +85,7 @@ const total = catalog.reduce((sum, item) => sum + item.price, 0);
       <div>
         <p class="eyebrow">THE FULL GLOW</p>
         <h2>Take the complete ritual home.</h2>
-        <p>All five formulas, sequenced to cleanse, treat, hydrate, protect, and restore.</p>
+        <p>All four formulas, sequenced to cleanse, fortify, renew, and restore.</p>
       </div>
       <div class="shop-bundle-action">
         <p><strong>${total.toFixed(2)}</strong> for the set</p>
@@ -97,7 +96,7 @@ const total = catalog.reduce((sum, item) => sum + item.price, 0);
   </section>
 </BaseLayout>
 <script>
-  const words = ['cleanse', 'treat', 'hydrate', 'protect', 'restore', 'glow'];
+  const words = ['cleanse', 'fortify', 'renew', 'restore', 'glow'];
   const word = document.querySelector<HTMLElement>('[data-shop-word]');
   let wordIndex = 0;
   if (word && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

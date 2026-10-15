@@ -2,11 +2,10 @@
 import '../../css/stage.css';
 
 const products = [
-  { className: 'night', name: 'Night Cream', image: '/assets/subjects/night.png', href: '/shop/night-cream/', description: 'A collagen-enhancing night moisturizer made to support skin renewal while you sleep.' },
-  { className: 'retinol', name: 'Retinol Treatment', image: '/assets/subjects/serum%20retinol.png', href: '/shop/serum/', description: 'A serum with retinol, peptides, and hyaluronic acid for smoother, refreshed-looking skin.' },
-  { className: 'sunscreen', name: 'Sunscreen', image: '/assets/subjects/sunscreen.png', href: '/shop/mineral-sunscreen/', description: 'A mineral SPF cream that helps protect skin from daily UV exposure with a clean, lightweight finish.' },
-  { className: 'cleanser', name: 'Cleanser', image: '/assets/subjects/cleanser.png', href: '/shop/dual-action-cleanser/', description: 'A gentle foaming cleanser that lifts away buildup while keeping the skin barrier comfortable.' },
-  { className: 'day', name: 'Day Cream', image: '/assets/subjects/day.png', href: '/shop/day-cream/', description: 'A brightening daily moisturizer with SPF to hydrate, protect, and prep skin for the day.' }
+  { className: 'cleanser', name: 'Premium Cleanser', image: '/assets/products/premium-cleanser-cutout.png', href: '/shop/premium-cleanser/', description: 'A gentle foaming cleanser with aloe vera and ectoin for soft, balanced skin.' },
+  { className: 'day', name: 'Fortify Day Cream', image: '/assets/products/fortify-day-cream-cutout.png', href: '/shop/fortify-day-cream/', description: 'A peptide-powered morning cream that brightens, hydrates, and supports the skin barrier.' },
+  { className: 'retinol', name: 'Radiance Serum', image: '/assets/products/radiance-serum-cutout.png', href: '/shop/radiance-serum/', description: 'Retinol and hyaluronic acid help refine texture and revive your glow.' },
+  { className: 'night', name: 'Night Cream', image: '/assets/products/night-cream-cutout.png', href: '/shop/night-cream/', description: 'A rich evening cream with MSM and ectoin to support overnight renewal.' }
 ];
 
 const particles = [
@@ -28,7 +27,7 @@ const particles = [
 
 <section class="static-page" aria-label="Native Ceuticals product lineup">
   <div class="product-stage" id="product-stage">
-    <img class="hero-photo" src="/assets/second-section-thc-free.png" alt="Serum 72 skincare product lineup photographed on stone" loading="lazy" />
+    <img class="hero-photo" src="/assets/site/product-stage-v2.png" alt="Premium Cleanser, Fortify Day Cream, Radiance Serum, and Night Cream on a stone ledge" loading="lazy" />
     <div class="particle-field" aria-hidden="true">
       {particles.map(style => <span class="particle" style={style}></span>)}
     </div>

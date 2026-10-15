@@ -35,11 +35,10 @@ function s72_data_dir(string $name): string {
 }
 function s72_catalog(): array {
     return [
-        'night-cream' => ['name'=>'Night Cream','price'=>6999,'subscriptionPrice'=>6399,'image'=>'public/assets/products/night-cream.png'],
-        'day-cream' => ['name'=>'Day Cream','price'=>4999,'subscriptionPrice'=>4499,'image'=>'public/assets/products/day-cream.png'],
-        'serum' => ['name'=>'Serum','price'=>5999,'subscriptionPrice'=>5399,'image'=>'public/assets/products/serum.png'],
-        'mineral-sunscreen' => ['name'=>'Mineral Sunscreen','price'=>3999,'subscriptionPrice'=>3599,'image'=>'public/assets/products/mineral-sunscreen.png'],
-        'dual-action-cleanser' => ['name'=>'Dual Action Cleanser','price'=>3499,'subscriptionPrice'=>3149,'image'=>'public/assets/products/dual-action-cleanser.webp'],
+        'fortify-day-cream' => ['name'=>'Fortify Day Cream','price'=>4999,'subscriptionPrice'=>4499,'image'=>'public/assets/products/fortify-day-cream.jpg'],
+        'night-cream' => ['name'=>'Night Cream','price'=>4999,'subscriptionPrice'=>4499,'image'=>'public/assets/products/night-cream.jpg'],
+        'premium-cleanser' => ['name'=>'Premium Cleanser','price'=>3299,'subscriptionPrice'=>2969,'image'=>'public/assets/products/premium-cleanser.jpg'],
+        'radiance-serum' => ['name'=>'Radiance Serum','price'=>5399,'subscriptionPrice'=>4859,'image'=>'public/assets/products/radiance-serum.jpg'],
     ];
 }
 function s72_site_url(): string {

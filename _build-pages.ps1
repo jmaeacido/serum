@@ -26,7 +26,6 @@ $head = @'
           <a href="product-night-cream.html">Night Cream</a>
           <a href="product-day-cream.html">Day Cream</a>
           <a href="product-serum.html">Serum</a>
-          <a href="product-mineral-sunscreen.html">Mineral Sunscreen</a>
           <a href="product-dual-action-cleanser.html">Dual Action Cleanser</a>
           <a href="shop.html">View all</a>
         </div>
@@ -169,7 +168,7 @@ Write-Product "product-day-cream.html" "Day Time Renewal Cream | Brighten &amp; 
   @{q="What does the Day Cream do?"; a="The Day Cream helps brighten dull-looking skin, soften the appearance of fine lines and wrinkles, and keep the skin feeling hydrated throughout the day."},
   @{q="When should I use the Day Cream?"; a="Use the Day Cream every morning after cleansing your face."},
   @{q="What are the key ingredients in the Day Cream?"; a="The Day Cream includes red raspberry oil, carrot seed oil, kokum butter, sweet almond oil, coconut oil, rosemary oil, peppermint oil, Vitamin E, and CBG."},
-  @{q="Does the Day Cream provide sun protection?"; a="Yes. The Day Cream provides light SPF coverage for daily protection. For longer sun exposure, Mineral Sunscreen should still be used."},
+  @{q="Does the Day Cream provide sun protection?"; a="The Day Cream provides light SPF coverage for daily protection. Use an appropriate broad-spectrum sunscreen for longer sun exposure."},
   @{q="Who should use the Day Cream?"; a="The Day Cream is ideal for anyone who wants a lightweight daytime moisturizer that helps improve dullness, dryness, and the visible signs of aging."}
 )
 
@@ -178,7 +177,7 @@ Write-Product "product-serum.html" "Retinol Serum | Firm, Smooth &amp; Renew You
   @{q="When should I use the Retinol Serum?"; a="Use the Retinol Serum at night after cleansing and before moisturizing."},
   @{q="How do I apply the Retinol Serum?"; a="Apply a few drops to the face using the dropper. Gently massage it into the skin using circular motions while avoiding the eye area. Once absorbed, follow with Night Cream."},
   @{q="What are the key ingredients in the Retinol Serum?"; a="The Retinol Serum includes retinol, hyaluronic acid, Vitamin C, rose hip oil, Vitamin E, glycerin, sweet orange oil, and CBG."},
-  @{q="Should I wear sunscreen when using Retinol Serum?"; a="Yes. Apply Mineral Sunscreen during the day to help protect the skin, especially while using active skincare products at night."}
+  @{q="Should I wear sunscreen when using Retinol Serum?"; a="Yes. Apply an appropriate broad-spectrum sunscreen during the day, especially while using active skincare products at night."}
 )
 
 Write-Product "product-mineral-sunscreen.html" "Mineral Sunscreen | Lightweight Daily UV Protection | Native Ceuticals" "Mineral Sunscreen" '$39.99' '$35.99' "assets/site/p3.webp" "Mineral Sunscreen is a lightweight, all-natural formula designed to protect your skin from UVA and UVB rays. This sunscreen provides broad-spectrum coverage while hydrating and supporting skin health, made with non-nano zinc oxide and nourishing plant oils like raspberry seed and carrot seed oil. Reef-safe, non-toxic, and crafted with high-quality ingredients." "Distilled Water, Raspberry Oil, Carrot Seed oil, Shea Butter, Zinc Oxide, e-Wax, Steric Acid, Sandalwood EO, Coconut EO, Optiphan, Vitamin E, CBG Isolate." "Apply generously onto any skin that is directly exposed to the sun. For best results, apply 15-30 minutes before sun exposure. Repeat every 2 hours or as needed." @(
@@ -201,13 +200,12 @@ Write-Page "shop.html" "Shop | Serum 72" @'
     <section class="page-hero">
       <p class="eyebrow">Shop</p>
       <h1>The Serum 72 lineup</h1>
-      <p>Five essentials, formulated with science and inspired by nature.</p>
+      <p>Four essentials, formulated with science and inspired by nature.</p>
     </section>
     <section class="shop-grid">
       <a class="product-tile" href="product-night-cream.html"><img src="assets/site/p6.webp" alt="Night Cream"><h2>Night Cream</h2><p class="price">$69.99</p></a>
       <a class="product-tile" href="product-day-cream.html"><img src="assets/site/p1.webp" alt="Day Cream"><h2>Day Cream</h2><p class="price">$49.99</p></a>
       <a class="product-tile" href="product-serum.html"><img src="assets/site/p2.webp" alt="Serum"><h2>Serum</h2><p class="price">$59.99</p></a>
-      <a class="product-tile" href="product-mineral-sunscreen.html"><img src="assets/site/p3.webp" alt="Mineral Sunscreen"><h2>Mineral Sunscreen</h2><p class="price">$39.99</p></a>
       <a class="product-tile" href="product-dual-action-cleanser.html"><img src="assets/site/p4.webp" alt="Dual Action Cleanser"><h2>Dual Action Cleanser</h2><p class="price">$34.99</p></a>
     </section>
 '@
@@ -293,7 +291,7 @@ Write-Page "faqs.html" "FAQs | Serum 72" @'
       <p>Answers to common questions about our products, orders, shipping, and more.</p>
     </section>
     <section class="faq-list">
-      <div class="faq-item"><button type="button">How do I start a routine?</button><p>Cleanse, treat with serum at night, moisturize, and protect with Mineral Sunscreen during the day.</p></div>
+      <div class="faq-item"><button type="button">How do I start a routine?</button><p>Cleanse, treat with serum at night, moisturize, and use an appropriate broad-spectrum sunscreen during the day.</p></div>
       <div class="faq-item"><button type="button">Do you offer a money-back guarantee?</button><p>Yes. The site presents a 30-day money back guarantee as shown on the homepage trust row.</p></div>
       <div class="faq-item"><button type="button">Where do you ship?</button><p>See Shipping &amp; Returns for current shipping notes. This static replica does not process orders.</p></div>
       <div class="faq-item"><button type="button">Are your products evaluated by the FDA?</button><p>These products are not evaluated by the FDA and are not intended to diagnose, treat, or cure any disease.</p></div>

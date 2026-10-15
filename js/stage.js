@@ -22,7 +22,10 @@
         const cardHeight = card.offsetHeight;
         const viewportPadding = 16;
         const lidOverlap = Math.min(64, liftRect.height * 0.12);
-        const preferredTop = liftRect.top - cardHeight + lidOverlap;
+        const needsProductClearance = product.classList.contains("day") || product.classList.contains("night");
+        const isCleanser = product.classList.contains("cleanser");
+        const panelOffset = needsProductClearance ? -20 : isCleanser ? -8 : lidOverlap;
+        const preferredTop = liftRect.top - cardHeight + panelOffset;
         const isMobileLayout = window.matchMedia("(max-width: 800px)").matches;
         const mobileHintClearance = parseFloat(getComputedStyle(document.documentElement).fontSize) * 4.5;
         const minimumTop = Math.max(
@@ -76,8 +79,12 @@
         const nudgeY = Math.min(0, bottomBoundary - unshiftedBottom);
         const anchoredBottom = unshiftedBottom + nudgeY;
         const availableHeight = Math.max(0, anchoredBottom - topBoundary);
-        const baseScale = 1.06;
-        const scaleFix = Math.min(baseScale, availableHeight / unscaledHeight);
+        const configuredScale = parseFloat(getComputedStyle(product).getPropertyValue("--active-scale"));
+        const baseScale = Number.isFinite(configuredScale) ? configuredScale : 1.18;
+        const isMobileLayout = window.matchMedia("(max-width: 800px)").matches;
+        const scaleFix = isMobileLayout
+          ? Math.min(baseScale, availableHeight / unscaledHeight)
+          : baseScale;
 
         product.style.setProperty("--nudge-y", nudgeY + "px");
 
